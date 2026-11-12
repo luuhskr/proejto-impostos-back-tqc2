@@ -1,6 +1,7 @@
 package br.com.controle.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,12 +13,17 @@ public class NotaFiscal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O número da nota fiscal é obrigatório.")
     private String numero;
 
+    @NotNull(message = "A data de emissão é obrigatória.")
     private LocalDate dataEmissao;
 
+    @NotNull(message = "O valor total é obrigatório.")
+    @DecimalMin(value = "0.0", message = "O valor total não pode ser negativo.")
     private BigDecimal valorTotal;
 
+    @NotBlank(message = "O status da nota fiscal é obrigatório.")
     private String status;
 
     // Construtor vazio
