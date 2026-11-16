@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Tributos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Controle de Tributos</h1>
+    <p>Organize suas compras e acompanhe os tributos aproximados.</p>
+</header>
+
+<main>
+    <section class="resumo">
+        <div class="card">
+            <h3>Total de compras</h3>
+            <p id="totalCompras">R$ 0,00</p>
+        </div>
+
+        <div class="card">
+            <h3>Total em tributos</h3>
+            <p id="totalTributos">R$ 0,00</p>
+        </div>
+
+        <div class="card">
+            <h3>Percentual médio</h3>
+            <p id="percentualMedio">0%</p>
+        </div>
+    </section>
+
+    <section class="formulario">
+        <h2>Cadastrar compra</h2>
+
+        <form id="formCompra">
+
+            <label for="numero">Descrição da compra</label>
+            <input type="text" id="numero" required
+                   placeholder="Ex.: Compra no supermercado">
+
+            <label for="dataEmissao">Data da compra</label>
+            <input type="date" id="dataEmissao" required>
+
+            <label for="valorTotal">Valor total da compra (R$)</label>
+            <input type="number" id="valorTotal" step="0.01"
+                   min="0.01" required placeholder="0,00">
+
+            <h3>Tributos aproximados</h3>
+
+            <label for="tributosFederais">Tributos federais (R$)</label>
+            <input type="number" id="tributosFederais" step="0.01"
+                   min="0" value="0" required>
+
+            <label for="tributosEstaduais">Tributos estaduais (R$)</label>
+            <input type="number" id="tributosEstaduais" step="0.01"
+                   min="0" value="0" required>
+
+            <label for="tributosMunicipais">Tributos municipais (R$)</label>
+            <input type="number" id="tributosMunicipais" step="0.01"
+                   min="0" value="0" required>
+
+            <button type="submit">Cadastrar compra</button>
+
+        </form>
+    </section>
+
+    <section class="historico">
+        <h2>Minhas compras</h2>
+
+        <div id="listaCompras">
+            <p>Nenhuma compra cadastrada ainda.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Controle de Tributos — Valores aproximados informados pelo usuário.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
