@@ -1,4 +1,21 @@
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+    --pink-light: #fff1f5;
+    --pink-soft: #fce1e9;
+    --pink: #e9a6bb;
+    --pink-strong: #d77f9e;
+    --wine: #71394f;
+    --wine-dark: #512638;
+    --lavender: #eee8f5;
+    --cream: #fffafd;
+    --text: #493541;
+    --muted: #927d89;
+    --border: #f1dce5;
+    --white: #ffffff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,71 +23,109 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6fa;
-    color: #263238;
+    font-family: 'DM Sans', sans-serif;
+    background: #fff7fa;
+    color: var(--text);
+    min-height: 100vh;
 }
 
+/* CABEÇALHO */
+
 header {
-    background-color: #172b4d;
-    color: white;
-    padding: 35px 8%;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, #f8dce6, #fff0f5);
+    padding: 42px 8%;
+    border-bottom: 1px solid var(--border);
 }
 
 header h1 {
-    font-size: 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    color: var(--wine-dark);
     margin-bottom: 10px;
 }
 
 header p {
-    color: #d5deeb;
+    color: #896779;
+    font-size: 14px;
 }
+
+/* CONTEÚDO */
 
 main {
     width: 85%;
-    max-width: 1100px;
-    margin: 35px auto;
+    max-width: 1150px;
+    margin: 38px auto;
 }
+
+/* CARTÕES DE RESUMO */
 
 .resumo {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 22px;
     margin-bottom: 30px;
 }
 
 .card {
-    background-color: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: relative;
+    background: var(--white);
+    padding: 27px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    box-shadow: 0 5px 18px rgba(113, 57, 79, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card::after {
+    content: "✧";
+    position: absolute;
+    top: 15px;
+    right: 19px;
+    color: var(--pink);
+    font-size: 21px;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 9px 22px rgba(113, 57, 79, 0.10);
 }
 
 .card h3 {
-    font-size: 15px;
-    color: #667085;
-    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 16px;
 }
 
 .card p {
-    font-size: 25px;
-    font-weight: bold;
-    color: #172b4d;
+    font-family: 'Playfair Display', serif;
+    font-size: 27px;
+    font-weight: 600;
+    color: var(--wine);
 }
+
+/* FORMULÁRIO E HISTÓRICO */
 
 .formulario,
 .historico {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
+    background: var(--white);
+    padding: 32px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    box-shadow: 0 5px 18px rgba(113, 57, 79, 0.05);
     margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 h2 {
-    margin-bottom: 22px;
-    color: #172b4d;
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    color: var(--wine);
+    margin-bottom: 24px;
 }
+
+/* FORMULÁRIO */
 
 form {
     display: flex;
@@ -78,48 +133,67 @@ form {
 }
 
 label {
-    margin-bottom: 8px;
-    margin-top: 15px;
-    font-weight: bold;
-    font-size: 14px;
+    margin: 17px 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #765768;
 }
 
 input {
-    padding: 12px;
-    border: 1px solid #d0d5dd;
-    border-radius: 6px;
-    font-size: 15px;
-    outline: none;
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fffafd;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    transition: border 0.2s, box-shadow 0.2s;
 }
 
 input:focus {
-    border-color: #3867d6;
+    outline: none;
+    border-color: var(--pink-strong);
+    box-shadow: 0 0 0 3px rgba(215, 127, 158, 0.14);
+    background: white;
 }
 
 form h3 {
-    margin-top: 25px;
-    color: #344563;
+    margin-top: 30px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid var(--border);
+    color: var(--wine);
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
 }
 
+/* BOTÃO */
+
 button {
-    margin-top: 25px;
-    padding: 14px;
-    background-color: #2457a7;
+    margin-top: 28px;
+    padding: 15px;
+    background: linear-gradient(120deg, #d77f9e, #bd6688);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(189, 102, 136, 0.18);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
-    background-color: #173f80;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 15px rgba(189, 102, 136, 0.25);
 }
 
+/* HISTÓRICO DE COMPRAS */
+
 .item-compra {
-    border-bottom: 1px solid #e5e7eb;
-    padding: 18px 0;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
 }
 
 .item-compra:last-child {
@@ -127,33 +201,51 @@ button:hover {
 }
 
 .item-compra h3 {
-    color: #172b4d;
-    margin-bottom: 10px;
+    color: var(--wine);
+    font-size: 16px;
+    margin-bottom: 12px;
 }
 
 .item-compra p {
-    margin: 6px 0;
-    color: #667085;
-}
-
-footer {
-    text-align: center;
-    padding: 25px;
-    color: #667085;
+    margin: 7px 0;
+    color: var(--muted);
     font-size: 13px;
 }
 
+/* RODAPÉ */
+
+footer {
+    text-align: center;
+    padding: 28px;
+    color: #a58d9a;
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    background: #fff1f5;
+}
+
+/* RESPONSIVIDADE */
+
 @media (max-width: 700px) {
+    header {
+        padding: 32px 6%;
+    }
+
+    header h1 {
+        font-size: 27px;
+    }
+
     main {
         width: 92%;
+        margin: 25px auto;
     }
 
     .resumo {
         grid-template-columns: 1fr;
+        gap: 14px;
     }
 
     .formulario,
     .historico {
-        padding: 20px;
+        padding: 22px;
     }
 }
