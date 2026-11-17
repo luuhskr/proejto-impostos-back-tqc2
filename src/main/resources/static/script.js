@@ -4,7 +4,11 @@ const API_URL = "/api/notas-fiscais";
 const formulario = document.getElementById("formCompra");
 const listaCompras = document.getElementById("listaCompras");
 
-// Formatação de valores em reais
+let compraEditandoId = null;
+
+const botaoSalvar = formulario.querySelector('button[type="submit"]');
+
+// Formatar valores em reais
 function formatarMoeda(valor) {
     return Number(valor).toLocaleString("pt-BR", {
         style: "currency",
@@ -12,13 +16,13 @@ function formatarMoeda(valor) {
     });
 }
 
-// Formatação de datas
+// Formatar datas
 function formatarData(data) {
     const [ano, mes, dia] = data.split("-");
     return `${dia}/${mes}/${ano}`;
 }
 
-// Buscar compras cadastradas no backend
+// Carregar compras do backend
 async function carregarCompras() {
     try {
         const resposta = await fetch(API_URL);
@@ -38,7 +42,7 @@ async function carregarCompras() {
     }
 }
 
-// Exibir compras na tela
+// Mostrar compras na tela
 function mostrarCompras(compras) {
     listaCompras.innerHTML = "";
 
@@ -64,9 +68,34 @@ function mostrarCompras(compras) {
         tributos.textContent = "Total de tributos: " + formatarMoeda(compra.totalTributos);
 
         const percentual = document.createElement("p");
-        percentual.textContent = "Percentual de tributos: " + compra.percentualTributos + "%";
+        percentual.textContent =
+            "Percentual de tributos: " + compra.percentualTributos + "%";
 
-        item.append(titulo, data, valor, tributos, percentual);
+        // Área dos botões
+        const acoes = document.createElement("div");
+        acoes.className = "acoes-compra";
+
+        const botaoEditar = document.createElement("button");
+        botaoEditar.type = "button";
+        botaoEditar.className = "btn-editar";
+        botaoEditar.textContent = "Editar";
+
+        botaoEditar.addEventListener("click", () => {
+            editarCompra(compra);
+        });
+
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.type = "button";
+        botaoExcluir.className = "btn-excluir";
+        botaoExcluir.textContent = "Excluir";
+
+        botaoExcluir.addEventListener("click", () => {
+            excluirCompra(compra.id);
+        });
+
+        acoes.append(botaoEditar, botaoExcluir);
+
+        item.append(titulo, data, valor, tributos, percentual, acoes);
 
         listaCompras.appendChild(item);
     });
@@ -96,7 +125,52 @@ function atualizarResumo(compras) {
         percentual.toFixed(2).replace(".", ",") + "%";
 }
 
-// Cadastrar uma nova compra
+// Preencher formulário para editar uma compra
+function editarCompra(compra) {
+    compraEditandoId = compra.id;
+
+    document.getElementById("numero").value = compra.numero;
+    document.getElementById("dataEmissao").value = compra.dataEmissao;
+    document.getElementById("valorTotal").value = compra.valorTotal;
+    document.getElementById("tributosFederais").value = compra.tributosFederais;
+    document.getElementById("tributosEstaduais").value = compra.tributosEstaduais;
+    document.getElementById("tributosMunicipais").value = compra.tributosMunicipais;
+
+    botaoSalvar.textContent = "Salvar alterações";
+
+    document.querySelector(".formulario").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+// Excluir uma compra
+async function excluirCompra(id) {
+    const confirmar = confirm("Tem certeza de que deseja excluir esta compra?");
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!resposta.ok) {
+            throw new Error("Não foi possível excluir a compra.");
+        }
+
+        alert("Compra excluída com sucesso!");
+
+        await carregarCompras();
+
+    } catch (erro) {
+        console.error("Erro ao excluir:", erro);
+        alert("Não foi possível excluir a compra.");
+    }
+}
+
+// Cadastrar ou atualizar uma compra
 formulario.addEventListener("submit", async function(evento) {
     evento.preventDefault();
 
@@ -121,28 +195,39 @@ formulario.addEventListener("submit", async function(evento) {
     }
 
     try {
-        const resposta = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(compra)
-        });
+        const editando = compraEditandoId !== null;
+
+        const resposta = await fetch(
+            editando ? `${API_URL}/${compraEditandoId}` : API_URL,
+            {
+                method: editando ? "PUT" : "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(compra)
+            }
+        );
 
         if (!resposta.ok) {
             const mensagem = await resposta.text();
-            throw new Error(mensagem || "Erro ao cadastrar compra.");
+            throw new Error(mensagem || "Erro ao salvar compra.");
         }
 
-        alert("Compra cadastrada com sucesso!");
+        alert(editando
+            ? "Compra atualizada com sucesso!"
+            : "Compra cadastrada com sucesso!"
+        );
 
         formulario.reset();
+
+        compraEditandoId = null;
+        botaoSalvar.textContent = "Cadastrar compra";
 
         await carregarCompras();
 
     } catch (erro) {
-        console.error("Erro ao cadastrar:", erro);
-        alert("Não foi possível cadastrar a compra. Confira o console e o backend.");
+        console.error("Erro ao salvar:", erro);
+        alert("Não foi possível salvar a compra. Confira o console e o backend.");
     }
 });
 
